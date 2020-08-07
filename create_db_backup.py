@@ -17,3 +17,5 @@ def create_db_backup() -> Path:
 
 if __name__ == '__main__':
     create_db_backup()
+
+#TODO 1.take care of the problem with the DBField.name 2.json - {}

@@ -89,7 +89,7 @@ def test_create(new_db: DataBase) -> None:
     # assert students.count() == 0
     # with pytest.raises(ValueError):
     #     students.delete_record(key=1_000_111)
-    #
+
     db1 = DataBase()
     assert db1.num_tables() == 1
     db1.delete_table('Students')
@@ -99,50 +99,50 @@ def test_create(new_db: DataBase) -> None:
 def test_update(new_db: DataBase) -> None:
     students = create_students_table(new_db)
     add_student(students, 111, Birthday=dt.datetime(1995, 4, 28))
-    # assert students.count() == 1
-#     students.update_record(1_000_111, dict(First='Jane', Last='Doe'))
-#     assert students.get_record(1_000_111)['First'] == 'Jane'
-#     with pytest.raises(ValueError):  # record already exists
-#         add_student(students, 111)
-#
-#
-# def test_50_students(new_db: DataBase) -> None:
-#     students = create_students_table(new_db, num_students=50)
-#     assert students.count() == 50
-#     students.delete_record(1_000_001)
-#     students.delete_records([SelectionCriteria('ID', '=', 1_000_020)])
-#     students.delete_records([SelectionCriteria('ID', '<', 1_000_003)])
-#     students.delete_records([SelectionCriteria('ID', '>', 1_000_033)])
-#     students.delete_records([
-#         SelectionCriteria('ID', '>', 1_000_020),
-#         SelectionCriteria('ID', '<', 1_000_023)
-#     ])
-#     assert students.count() == 28
-#     students.update_record(1_000_009, dict(First='Jane', Last='Doe'))
-#     results = students.query_table([SelectionCriteria('First', '=', 'Jane')])
-#     assert len(results) == 1
-#     assert results[0]['First'] == 'Jane'
-#
-#
-# def test_performance(new_db: DataBase) -> None:
-#     num_records = 200
-#     assert db_size() == 0
-#     insert_start = time.time()
-#     students = create_students_table(new_db, num_records)
-#     insert_stop = time.time()
-#     size_100 = db_size()
-#
-#     assert 0 < size_100 < 1_000_000
-#     assert insert_stop - insert_start < 20
-#
-#     delete_start = time.time()
-#     for i in range(num_records):
-#         students.delete_records([SelectionCriteria('ID', '=', 1_000_000 + i)])
-#     delete_stop = time.time()
-#     assert delete_stop - delete_start < 20
-#
-#
-# def test_bad_key(new_db: DataBase) -> None:
-#     with pytest.raises(ValueError):
-#         _ = new_db.create_table('Students', STUDENT_FIELDS, 'BAD_KEY')
+    assert students.count() == 1
+    students.update_record(1_000_111, dict(First='Jane', Last='Doe'))
+    assert students.get_record(1_000_111)['First'] == 'Jane'
+    with pytest.raises(ValueError):  # record already exists
+        add_student(students, 111)
+
+
+def test_50_students(new_db: DataBase) -> None:
+    students = create_students_table(new_db, num_students=50)
+    assert students.count() == 50
+    students.delete_record(1_000_001)
+    students.delete_records([SelectionCriteria('ID', '=', 1_000_020)])
+    students.delete_records([SelectionCriteria('ID', '<', 1_000_003)])
+    students.delete_records([SelectionCriteria('ID', '>', 1_000_033)])
+    students.delete_records([
+        SelectionCriteria('ID', '>', 1_000_020),
+        SelectionCriteria('ID', '<', 1_000_023)
+    ])
+    assert students.count() == 28
+    students.update_record(1_000_009, dict(First='Jane', Last='Doe'))
+    results = students.query_table([SelectionCriteria('First', '=', 'Jane')])
+    assert len(results) == 1
+    assert results[0]['First'] == 'Jane'
+
+
+def test_performance(new_db: DataBase) -> None:
+    num_records = 200
+    assert db_size() == 0
+    insert_start = time.time()
+    students = create_students_table(new_db, num_records)
+    insert_stop = time.time()
+    size_100 = db_size()
+
+    assert 0 < size_100 < 1_000_000
+    assert insert_stop - insert_start < 20
+
+    delete_start = time.time()
+    for i in range(num_records):
+        students.delete_records([SelectionCriteria('ID', '=', 1_000_000 + i)])
+    delete_stop = time.time()
+    assert delete_stop - delete_start < 20
+
+
+def test_bad_key(new_db: DataBase) -> None:
+    with pytest.raises(ValueError):
+        _ = new_db.create_table('Students', STUDENT_FIELDS, 'BAD_KEY')
 
